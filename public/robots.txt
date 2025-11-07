@@ -1,0 +1,34 @@
+# ========================================
+# robots.txt for https://yourdomain.com
+# ========================================
+
+# --- Allow major search engines ---
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+# --- Block bad/spammy bots ---
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# --- Default rule for all other bots ---
+User-agent: *
+Allow: /
+Crawl-delay: 5  # be gentle with server load
+
+# --- Sitemap location for SEO ---
+Sitemap: https://yourdomain.com/sitemap.xml
