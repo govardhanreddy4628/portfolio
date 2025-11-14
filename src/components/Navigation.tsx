@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
-import { Menu, X, User, Settings, LogOut, FileText } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import ThemeCustomizer from "./ThemeCustomizer";
 import profileImage from "@/assets/profile-image.jpg";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+//import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
+import ProfileDropdown from "./profile-dropdown";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const imageSource = "https://res.cloudinary.com/dqr4xoj7b/image/upload/v1763099272/Picsart_24-09-12_20-25-55-815_encjd8.jpg"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,19 +37,18 @@ const Navigation = () => {
   };
 
   return (
-    <nav 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/95 backdrop-blur-sm border-b border-border shadow-lg" : "bg-transparent"
-      }`}
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-background/95 backdrop-blur-sm border-b border-border shadow-lg" : "bg-transparent"
+        }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
-            <DropdownMenu>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="w-10 h-10 rounded-full border-2 border-primary/40 hover:border-primary transition-all overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary/50">
                   <img 
-                    src={profileImage? profileImage : "https://cdn3.iconfinder.com/data/icons/avatars-flat/33/man_5-1024.png"} 
+                    src={imageSource ? imageSource : profileImage} 
                     alt="Profile" 
                     className="w-full h-full object-cover"
                   />
@@ -101,15 +103,25 @@ const Navigation = () => {
                   <span>Log out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
-            <a 
-              href="#home" 
+            </DropdownMenu> */}
+            <ProfileDropdown
+              imageSrc={imageSource ? imageSource : profileImage}
+              onProfileClick={() => scrollToSection("#about")}
+              onResumeClick={() => {
+                const link = document.createElement("a");
+                link.href = "/resume.pdf";
+                link.download = "resume.pdf";
+                link.click();
+              }}
+            />
+            <a
+              href="#home"
               className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
             >
               Portfolio
             </a>
           </div>
-          
+
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-4">
             <div className="flex items-center gap-1">
@@ -124,14 +136,14 @@ const Navigation = () => {
                 </Button>
               ))}
             </div>
-            
+
             <ThemeCustomizer />
           </div>
-          
+
           {/* Mobile Menu and Theme Controls */}
           <div className="flex items-center gap-2 md:hidden">
             <ThemeCustomizer />
-            
+
             <Button
               variant="ghost"
               size="icon"
@@ -141,7 +153,7 @@ const Navigation = () => {
             </Button>
           </div>
         </div>
-        
+
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-border animate-slide-up">

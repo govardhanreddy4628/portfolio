@@ -1,11 +1,30 @@
 import { ArrowDown, Github, Linkedin, Mail, Download } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import profileImage from "@/assets/profile-image.jpg";
 import { Button } from "./ui/button";
 
+
 const Hero = () => {
   const [showImage, setShowImage] = useState(false);
-  
+
+  const imageSource = "https://res.cloudinary.com/dqr4xoj7b/image/upload/v1763099272/Picsart_24-09-12_20-25-55-815_encjd8.jpg"
+
+  // Animated title state
+  const titles = ["Frontend Developer", "MERN Stack Developer"];
+  const [index, setIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false); // start fade out
+      setTimeout(() => {
+        setIndex((prev) => (prev + 1) % titles.length);
+        setFade(true); // fade in new text
+      }, 500); // fade duration
+    }, 3000); // switch every 3s
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background to-card"></div>
@@ -22,7 +41,7 @@ const Hero = () => {
               >
                 <div className="w-9 h-9 rounded-full border-2 border-primary/40 cursor-pointer hover:border-primary transition-all overflow-hidden">
                   <img 
-                    src={profileImage? profileImage : "https://cdn3.iconfinder.com/data/icons/avatars-flat/33/man_5-1024.png"} 
+                    src={imageSource ? imageSource : profileImage} 
                     alt="John Doe" 
                     className="w-full h-full object-cover"
                   />
@@ -35,7 +54,7 @@ const Hero = () => {
                   <div className="absolute top-full left-1/4 -translate-x-1/2 mt-4 z-[100] animate-fade-in pointer-events-none">
                     <div className="bg-card border-2 border-primary/40 rounded-xl p-2 shadow-[var(--shadow-glow)]">
                       <img 
-                        src={profileImage} 
+                        src={imageSource ? imageSource : profileImage} 
                         alt="John Doe Profile" 
                         className="w-56 h-56 rounded-lg object-cover"
                       />
@@ -44,9 +63,17 @@ const Hero = () => {
                 )}
               </div>
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
-              MERN Stack Developer
+
+            {/* Animated Title */}
+            <h1
+              className={`text-5xl md:text-7xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent transition-opacity duration-500 ${
+                fade ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              {titles[index]}
             </h1>
+           
+
           </div>
           
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
@@ -72,18 +99,6 @@ const Hero = () => {
                 <Download className="ml-2 h-4 w-4" />
               </a>
             </Button>
-
-            {/* <Button 
-              size="lg" 
-              variant="outline" 
-              className="group border-primary/50 hover:border-primary hover:bg-primary/10 transition-all" 
-              asChild
-            >
-              <a href="/resume.pdf" download>
-                Resume
-                <Download className="ml-2 h-4 w-4" />
-              </a>
-            </Button> */}
           </div>
           
           <div className="flex gap-4 justify-center pt-8">
