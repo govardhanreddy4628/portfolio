@@ -13,8 +13,6 @@
       "@/*": ["./src/*"]
     },
 
-    // 👇 Optional: silence the deprecation warning
-    "ignoreDeprecations": "6.0",
 
     /* Bundler mode */
     "moduleResolution": "bundler",
