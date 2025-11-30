@@ -138,3 +138,57 @@ All colors MUST be HSL.
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:root {
+  --primary: 199 89% 48%;
+  --primary-glow: 217 91% 60%;
+}
+
+[data-theme="purple"] {
+  --primary: 271 81% 56%;
+  --primary-glow: 271 91% 65%;
+}
+
+[data-theme="green"] {
+  --primary: 142 76% 36%;
+  --primary-glow: 142 86% 45%;
+}
+
+[data-theme="orange"] {
+  --primary: 24 95% 53%;
+  --primary-glow: 24 100% 60%;
+}
+
+[data-theme="pink"] {
+  --primary: 330 81% 60%;
+  --primary-glow: 330 91% 68%;
+}
+
+[data-theme="red"] {
+  --primary: 0 84% 60%;
+  --primary-glow: 0 94% 68%;
+}
+
+
+
+
+

@@ -17,16 +17,27 @@ const ProfileDropdown = ({ imageSrc, onProfileClick, onResumeClick }: Props) => 
 
   const computePosition = () => {
     if (!triggerRef.current) return;
+
     const rect = triggerRef.current.getBoundingClientRect();
-    const top = rect.bottom + 8 + window.scrollY;
-    const left = rect.left + window.scrollX;
+
+    // With "fixed", no need for scrollY
+    const top = rect.bottom + 8;
+
+    const viewportWidth = document.documentElement.clientWidth;
+    let left = rect.right - MENU_WIDTH;
+
+    // Clamp to viewport
+    if (left < 8) left = 8;
+    if (left + MENU_WIDTH > viewportWidth - 8) {
+      left = viewportWidth - MENU_WIDTH - 8;
+    }
 
     setStyle({
-      position: "absolute",
+      position: "fixed", // IMPORTANT FIX
       top,
       left,
       width: MENU_WIDTH,
-      zIndex: 9999
+      zIndex: 9999,
     });
   };
 
@@ -38,6 +49,7 @@ const ProfileDropdown = ({ imageSrc, onProfileClick, onResumeClick }: Props) => 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       const menu = document.getElementById("profile-dropdown-menu");
+
       if (
         menu &&
         !menu.contains(e.target as Node) &&
@@ -47,6 +59,7 @@ const ProfileDropdown = ({ imageSrc, onProfileClick, onResumeClick }: Props) => 
         setOpen(false);
       }
     };
+
     if (open) document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, [open]);
@@ -89,7 +102,10 @@ const ProfileDropdown = ({ imageSrc, onProfileClick, onResumeClick }: Props) => 
 
           <button
             className="w-full flex items-center gap-2 p-2 text-sm rounded-md hover:bg-accent/10"
-            onClick={() => alert("Settings feature coming soon!")}
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent("open-hero-settings"));
+              setOpen(false);
+            }}
           >
             <Settings className="h-4 w-4" /> Settings
           </button>
@@ -116,6 +132,7 @@ const ProfileDropdown = ({ imageSrc, onProfileClick, onResumeClick }: Props) => 
       >
         <img src={imageSrc} className="w-full h-full object-cover" />
       </button>
+
       {menu}
     </>
   );
